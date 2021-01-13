@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="myShoppingAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="BillingAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="UnitPrice" Type="Double" />
+    <Property Name="Category" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <Property Name="ImageName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="ImageFile" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="TC" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="SellerId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="SellerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Registration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="gender" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="myShoppingAppEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="Registrations" EntityType="Self.Registration" />
+    <EntitySet Name="Orderdetails" EntityType="myShoppingAppModel.Orderdetail" />
+    <EntitySet Name="OrderItems" EntityType="myShoppingAppModel.OrderItem" />
+    <AssociationSet Name="FK__OrderItem__Order__06CD04F7" Association="myShoppingAppModel.FK__OrderItem__Order__06CD04F7">
+      <End Role="Orderdetail" EntitySet="Orderdetails" />
+      <End Role="OrderItem" EntitySet="OrderItems" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Orderdetail">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="DeliveryAddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="OrderDate" Type="DateTime" Precision="0" />
+    <Property Name="OrderPayMethod" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="PaymentReferenceId" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="IsConfirmed" Type="Boolean" />
+    <Property Name="Status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="OrderItems" Relationship="myShoppingAppModel.FK__OrderItem__Order__06CD04F7" FromRole="Orderdetail" ToRole="OrderItem" />
+  </EntityType>
+  <EntityType Name="OrderItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="SellerId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ProductName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="OrderedQuantity" Type="Int32" />
+    <Property Name="PerUnitPrice" Type="Int32" />
+    <Property Name="OrderId" Type="Int32" />
+    <NavigationProperty Name="Orderdetail" Relationship="myShoppingAppModel.FK__OrderItem__Order__06CD04F7" FromRole="OrderItem" ToRole="Orderdetail" />
+  </EntityType>
+  <Association Name="FK__OrderItem__Order__06CD04F7">
+    <End Type="myShoppingAppModel.Orderdetail" Role="Orderdetail" Multiplicity="0..1" />
+    <End Type="myShoppingAppModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orderdetail">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

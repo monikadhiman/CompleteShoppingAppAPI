@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="myShoppingAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Orderdetail">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="varchar" MaxLength="100" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="100" />
+    <Property Name="DeliveryAddress" Type="varchar" MaxLength="1000" />
+    <Property Name="Phone" Type="varchar" MaxLength="10" />
+    <Property Name="OrderDate" Type="date" />
+    <Property Name="OrderPayMethod" Type="varchar" MaxLength="1000" />
+    <Property Name="PaymentReferenceId" Type="varchar" MaxLength="1000" />
+    <Property Name="IsConfirmed" Type="bit" />
+    <Property Name="Status" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="OrderItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductId" Type="int" />
+    <Property Name="SellerId" Type="varchar" MaxLength="100" />
+    <Property Name="ProductName" Type="varchar" MaxLength="1000" />
+    <Property Name="OrderedQuantity" Type="int" />
+    <Property Name="PerUnitPrice" Type="int" />
+    <Property Name="OrderId" Type="int" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="1000" />
+    <Property Name="Description" Type="varchar" MaxLength="1000" />
+    <Property Name="BillingAddress" Type="varchar" MaxLength="1000" />
+    <Property Name="UnitPrice" Type="float" />
+    <Property Name="Category" Type="varchar" MaxLength="100" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="ImageName" Type="varchar" MaxLength="1000" />
+    <Property Name="ImageFile" Type="image" />
+    <Property Name="TC" Type="varchar" MaxLength="1000" />
+    <Property Name="SellerId" Type="varchar" MaxLength="50" />
+    <Property Name="SellerName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Registration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="role" Type="varchar" MaxLength="50" />
+    <Property Name="gender" Type="varchar" MaxLength="15" />
+    <Property Name="phone" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <Association Name="FK__OrderItem__Order__06CD04F7">
+    <End Role="Orderdetail" Type="Self.Orderdetail" Multiplicity="0..1" />
+    <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orderdetail">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="myShoppingAppModelStoreContainer">
+    <EntitySet Name="Orderdetail" EntityType="Self.Orderdetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__OrderItem__Order__06CD04F7" Association="Self.FK__OrderItem__Order__06CD04F7">
+      <End Role="Orderdetail" EntitySet="Orderdetail" />
+      <End Role="OrderItem" EntitySet="OrderItem" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
